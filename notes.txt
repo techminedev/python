@@ -1,0 +1,17 @@
+TASK  A.  Brand Logo detection
+1.	Create a module that will accept a URL of an image of any dimension.
+2.	Determine if a brand logo is present.
+3.	Provide x,y coordinates as to where the brand logo is located.
+
+TASK B.  Keyword detection
+1.	Create a module that will accept any URL
+2.	Determine if a keyword is present.
+3.	Provide x,y coordinates as to where the keyword is located.
+
+TASK C. Metatag detection
+1.	Create a module that will accept any URL
+2.	Determine if a metatag is present.
+
+TASK D.  Page Load Time
+1.	Create a module that will accept any URL
+2.	Determine the page loading time of the URL.  Network latencies can be excluded in the calculation.

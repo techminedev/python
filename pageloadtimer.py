@@ -36,7 +36,7 @@ class PageLoadTimer:
 
         timings = self.inject_timing_js()
 
-        min_time = min((epoch for epoch in timings.values() if epoch != 0))
+        #min_time = min((epoch for epoch in timings.values() if epoch != 0))
 
         ordered_events = ('navigationStart', 'fetchStart', 'domainLookupStart',
                           'domainLookupEnd', 'connectStart', 'connectEnd','secureConnectionStart',
@@ -45,7 +45,7 @@ class PageLoadTimer:
                           'domContentLoadedEventEnd', 'domComplete',
                           'loadEventStart', 'loadEventEnd'
                           )
-        event_times = ([(event, timings[event] - min_time ) for event
+        event_times = ([(event, timings[event]) for event
                        in ordered_events if event in timings])
 
         return collections.OrderedDict(event_times)

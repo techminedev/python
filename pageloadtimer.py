@@ -39,7 +39,7 @@ class PageLoadTimer:
         min_time = min((epoch for epoch in timings.values() if epoch != 0))
 
         ordered_events = ('navigationStart', 'fetchStart', 'domainLookupStart',
-                          'domainLookupEnd', 'connectStart', 'connectEnd',
+                          'domainLookupEnd', 'connectStart', 'connectEnd','secureConnectionStart',
                           'requestStart','responseStart', 'responseEnd', 'domLoading',
                           'domInteractive', 'domContentLoadedEventStart',
                           'domContentLoadedEventEnd', 'domComplete',

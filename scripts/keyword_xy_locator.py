@@ -11,9 +11,9 @@ class KeywordXYLocator:
 	def __init__(self):
 		pass
 		
-	def retrieve_coordinates(self,url,keyword):
+	def retrieve_coordinates(self,url,keywords):
 	
-		results =  []		
+		results =  {}	
 		
 		driver = None
 
@@ -28,13 +28,20 @@ class KeywordXYLocator:
 			driver.implicitly_wait(10)
 
 			driver.get(url)
-
-			matches = driver.find_elements_by_partial_link_text(keyword)
-
-			for match in matches:
+			
+			for keyword in keywords:
 				
-				loc = match.location
-				results.append(loc)
+				temp_results = []
+
+				# note : find_elements_by_partial_link_text() is case sensitive
+				matches = driver.find_elements_by_partial_link_text(keyword)
+
+				for match in matches:
+					
+					loc = match.location
+					temp_results.append(loc)
+					
+				results[keyword] = temp_results
 
 		except Exception,e:
 			print e
@@ -48,7 +55,8 @@ class KeywordXYLocator:
 if __name__ == "__main__":
 
 	scraper =  KeywordXYLocator()
-	print scraper.retrieve_coordinates("https://www.lazada.com.ph/catalog/?q=remax","Remax")
+	keywords = ["iPhone","Remax"]
+	print scraper.retrieve_coordinates("https://www.lazada.com.ph/catalog/?q=remax",keywords)
 
 		
 		

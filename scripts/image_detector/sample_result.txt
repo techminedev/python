@@ -1,0 +1,8 @@
+>python -u "image_detect.py"
+=== TESTING FOR DETECTION ===
+IS DETECTED: True
+MATCHING METHODS: ['cv2.TM_SQDIFF', 'cv2.TM_SQDIFF_NORMED']
+=== TESTING FOR NON DETECTION ===
+IS DETECTED: False
+MATCHING METHODS: []
+>Exit code: 0

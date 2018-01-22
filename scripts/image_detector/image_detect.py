@@ -11,6 +11,10 @@ CHROME_BROWSER_PATH = "/usr/lib/chromium-browser/chromedriver"
 
 class ImageDetector:
 	
+	""" 
+		OpenCV based image within image detector using matchTemplate() 
+	"""
+
 	def __init__(self):
 		pass
 		
@@ -80,12 +84,11 @@ class ImageDetector:
 				
 				min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
 				
-				
 				if method in [cv2.TM_SQDIFF, cv2.TM_SQDIFF_NORMED]:
-					if min_val == 0.0:
+					if min_val == 0.0: # min threshold
 						detected_methods.append(meth)					
 				else:
-					if max_val == 0.0:
+					if max_val == 1.0: # max threshold 
 						detected_methods.append(meth)			
 
 		except Exception,e:
@@ -170,7 +173,7 @@ if __name__ == "__main__":
 	id = ImageDetector()
 	
 	# TEST FOR DETECTION
-	
+		
 	print "=== TESTING FOR DETECTION ==="
 	
 	target_url = "http://opencv-python-tutroals.readthedocs.io/en/latest/index.html"

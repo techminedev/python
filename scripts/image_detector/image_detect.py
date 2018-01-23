@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+# note : pls install opencv-contrib-python via pip
 from selenium import webdriver
-import cv2
+import cv2 
 import numpy as np
 from matplotlib import pyplot as plt
 
@@ -12,49 +13,46 @@ CHROME_BROWSER_PATH = "/usr/lib/chromium-browser/chromedriver"
 class ImageDetector:
 	
 	""" 
-		OpenCV based image within image detector using matchTemplate() 
+		OpenCV based image within image detector using keypoints detection
 	"""
 
 	def __init__(self):
 		pass
 		
-	def show_detection(self,image_pattern,target_image):
+	def show_detection(self,template,target_image):
 		
 		status = False
 				
-		driver = None
-
 		try:
 
-			template = cv2.imread(image_pattern,0)
-			img = cv2.imread(target_image,0)
-			w, h = template.shape[::-1]
+			img1 = cv2.imread(template,0)
+			img2 = cv2.imread(target_image,0)
 			
-			methods = ['cv2.TM_CCORR_NORMED', 'cv2.TM_SQDIFF', 'cv2.TM_SQDIFF_NORMED']
+			# Initiate SIFT detector
+			sift = cv2.xfeatures2d.SIFT_create()
+
+			# find the keypoints and descriptors with SIFT
+			kp1, des1 = sift.detectAndCompute(img1,None)
+			kp2, des2 = sift.detectAndCompute(img2,None)
+
+			# BFMatcher with default params
+			bf = cv2.BFMatcher()
+			matches = bf.knnMatch(des1,des2, k=2)
+
+			# Apply ratio test
+			good = []
+			for m,n in matches:
+				if m.distance < 0.75*n.distance:
+					good.append([m])
+
+			# cv2.drawMatchesKnn expects list of lists as matches.
+			img3 = cv2.drawMatchesKnn(img1,kp1,img2,kp2,good,None,flags=2)
+
+			plt.imshow(img3),plt.show()
 			
-			for meth in methods:
-				method = eval(meth)
-				
-				res = cv2.matchTemplate(img,template,method)
-				min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
-
-				# If the method is TM_SQDIFF or TM_SQDIFF_NORMED, take minimum
-				if method in [cv2.TM_SQDIFF, cv2.TM_SQDIFF_NORMED]:
-					top_left = min_loc
-				else:
-					top_left = max_loc
-				bottom_right = (top_left[0] + w, top_left[1] + h)
-
-				cv2.rectangle(img,top_left, bottom_right, 255, 2)
-
-				plt.subplot(121),plt.imshow(res,cmap = 'gray')
-				plt.title('Matching Result'), plt.xticks([]), plt.yticks([])
-				plt.subplot(122),plt.imshow(img,cmap = 'gray')
-				plt.title('Detected Point'), plt.xticks([]), plt.yticks([])
-				plt.suptitle(meth)
-
-				plt.show()			
-
+			if len(good) > 0:
+				status = True
+			
 		except Exception,e:
 			print e
 		finally:
@@ -62,44 +60,41 @@ class ImageDetector:
 		
 		return status
 		
-	def is_detected(self,image_pattern,target_image):
+	def is_detected(self,template,target_image):
 		
 		status = False
-		detected_methods = []
-		
-		driver = None
-
+				
 		try:
 
-			template = cv2.imread(image_pattern,0)
-			img = cv2.imread(target_image,0)
-			w, h = template.shape[::-1]
+			img1 = cv2.imread(template,0)
+			img2 = cv2.imread(target_image,0)
 			
-			methods = ['cv2.TM_CCORR_NORMED', 'cv2.TM_SQDIFF', 'cv2.TM_SQDIFF_NORMED']
-			
-			for meth in methods:
-				method = eval(meth)
-				
-				res = cv2.matchTemplate(img,template,method)
-				
-				min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
-				
-				if method in [cv2.TM_SQDIFF, cv2.TM_SQDIFF_NORMED]:
-					if min_val == 0.0: # min threshold
-						detected_methods.append(meth)					
-				else:
-					if max_val == 1.0: # max threshold 
-						detected_methods.append(meth)			
+			# Initiate SIFT detector
+			sift = cv2.xfeatures2d.SIFT_create()
 
+			# find the keypoints and descriptors with SIFT
+			kp1, des1 = sift.detectAndCompute(img1,None)
+			kp2, des2 = sift.detectAndCompute(img2,None)
+
+			# BFMatcher with default params
+			bf = cv2.BFMatcher()
+			matches = bf.knnMatch(des1,des2, k=2)
+
+			# Apply ratio test
+			good = []
+			for m,n in matches:
+				if m.distance < 0.75*n.distance:
+					good.append([m])
+
+			if len(good) > 0:
+				status = True
+			
 		except Exception,e:
 			print e
 		finally:
 			pass
-			
-		if len(detected_methods) > 0:
-			status = True
 		
-		return status,detected_methods
+		return status
 		
 	def get_image_from_image(self, source_file,target_file,beginX,beginY,length,width):
 	
@@ -186,22 +181,19 @@ if __name__ == "__main__":
 		if cropped_status:
 			
 			# show visual detection per matching algorithm
-			#id.show_detection(template,screenshot) 
+			status = id.show_detection(template,screenshot) 
 				
-			status, match_methods = id.is_detected(template,screenshot) 
+			# status = id.is_detected(template,screenshot) 
 			
 			print "IS DETECTED: %s" % status
-			print "MATCHING METHODS: %s" % match_methods
-	
-
 		
 	# TEST FOR NON DETECTION
 	print "=== TESTING FOR NON DETECTION ==="
 	
-	#id.show_detection("bugs_bunny.jpg",screenshot) 
-	status, match_methods = id.is_detected("bugs_bunny.jpg",screenshot) 
+	status = id.show_detection("bugs_bunny.jpg",screenshot) 
+	#status = id.is_detected("bugs_bunny.jpg",screenshot) 
 	print "IS DETECTED: %s" % status
-	print "MATCHING METHODS: %s" % match_methods
+
 	
 	
 	

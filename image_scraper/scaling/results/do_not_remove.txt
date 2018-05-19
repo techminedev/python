@@ -1,0 +1,1 @@
+this directory will contain scraped and processed images

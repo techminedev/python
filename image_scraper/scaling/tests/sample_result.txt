@@ -1,0 +1,300 @@
+>python -u "api_test.py"
+===========================================
+MATCH SINGLE IMAGE
+200
+{"status":"OK","task_id":"9d4cf42792e2bcb4d3cd97c53ef171cc"}
+===========================================
+FETCH RESULT BY TASK ID wait 120 sec : 9d4cf42792e2bcb4d3cd97c53ef171cc
+200
+[
+  {
+    "created_at": "2018-05-19T12:58:00", 
+    "id": 1, 
+    "image_path": "/home/lilandra/PROJECTS/techmine/scaling_mvp/results/9d4cf42792e2bcb4d3cd97c53ef171cc_result.png", 
+    "image_url": "https://www.gunsamerica.com/userimages/135830/934027991/wm_12387848.jpg", 
+    "processing_status": 2, 
+    "screen_height": 1080, 
+    "screen_width": 1920, 
+    "status": 1, 
+    "target_url": "https://www.gunsamerica.com/934027991/GLOCK-G43-9MM-6-1-NO-CREDIT-CARD-FE.htm", 
+    "task_id": "9d4cf42792e2bcb4d3cd97c53ef171cc", 
+    "updated_at": "2018-05-19T04:58:38"
+  }
+]
+
+===========================================
+MATCH MULTIPLE IMAGES
+200
+{"status":"OK","task_id":"a2458bccc1ca27bde2741f6f354ef80b"}
+===========================================
+FETCH RESULT BY TASK ID wait 120 sec: a2458bccc1ca27bde2741f6f354ef80b
+200
+[
+  {
+    "created_at": "2018-05-19T13:00:00", 
+    "id": 2, 
+    "image_path": "/home/lilandra/PROJECTS/techmine/scaling_mvp/results/a2458bccc1ca27bde2741f6f354ef80b_1_result.png", 
+    "image_url": "https://news.nationalgeographic.com/content/dam/news/2017/04/27/frog-gallery/01-frog-day-gallery.jpg", 
+    "processing_status": 2, 
+    "screen_height": 1080, 
+    "screen_width": 1920, 
+    "status": 0, 
+    "target_url": "https://www.gunsamerica.com/934027991/GLOCK-G43-9MM-6-1-NO-CREDIT-CARD-FE.htm", 
+    "task_id": "a2458bccc1ca27bde2741f6f354ef80b", 
+    "updated_at": "2018-05-19T05:00:40"
+  }, 
+  {
+    "created_at": "2018-05-19T13:00:00", 
+    "id": 3, 
+    "image_path": "/home/lilandra/PROJECTS/techmine/scaling_mvp/results/a2458bccc1ca27bde2741f6f354ef80b_2_result.png", 
+    "image_url": "https://upload.wikimedia.org/wikipedia/en/5/59/Hulk_%28comics_character%29.png", 
+    "processing_status": 2, 
+    "screen_height": 1080, 
+    "screen_width": 1920, 
+    "status": 0, 
+    "target_url": "https://www.gunsamerica.com/934027991/GLOCK-G43-9MM-6-1-NO-CREDIT-CARD-FE.htm", 
+    "task_id": "a2458bccc1ca27bde2741f6f354ef80b", 
+    "updated_at": "2018-05-19T05:01:08"
+  }, 
+  {
+    "created_at": "2018-05-19T13:00:00", 
+    "id": 4, 
+    "image_path": "/home/lilandra/PROJECTS/techmine/scaling_mvp/results/a2458bccc1ca27bde2741f6f354ef80b_3_result.png", 
+    "image_url": "https://www.gunsamerica.com/userimages/135830/934027991/wm_12387848.jpg", 
+    "processing_status": 2, 
+    "screen_height": 1080, 
+    "screen_width": 1920, 
+    "status": 1, 
+    "target_url": "https://www.gunsamerica.com/934027991/GLOCK-G43-9MM-6-1-NO-CREDIT-CARD-FE.htm", 
+    "task_id": "a2458bccc1ca27bde2741f6f354ef80b", 
+    "updated_at": "2018-05-19T05:01:51"
+  }, 
+  {
+    "created_at": "2018-05-19T13:00:00", 
+    "id": 5, 
+    "image_path": "", 
+    "image_url": "https://vignette.wikia.nocookie.net/swfanon/images/7/78/Padme.jpg/revision/latest?cb=20110710054422", 
+    "processing_status": 2, 
+    "screen_height": 1080, 
+    "screen_width": 1920, 
+    "status": 0, 
+    "target_url": "https://www.gunsamerica.com/934027991/GLOCK-G43-9MM-6-1-NO-CREDIT-CARD-FE.htm", 
+    "task_id": "a2458bccc1ca27bde2741f6f354ef80b", 
+    "updated_at": "2018-05-19T05:01:51"
+  }
+]
+
+===========================================
+FETCH RESULT BY DATE
+200
+[
+  {
+    "created_at": "2018-05-19T12:58:00", 
+    "id": 1, 
+    "image_path": "/home/lilandra/PROJECTS/techmine/scaling_mvp/results/9d4cf42792e2bcb4d3cd97c53ef171cc_result.png", 
+    "image_url": "https://www.gunsamerica.com/userimages/135830/934027991/wm_12387848.jpg", 
+    "processing_status": 2, 
+    "screen_height": 1080, 
+    "screen_width": 1920, 
+    "status": 1, 
+    "target_url": "https://www.gunsamerica.com/934027991/GLOCK-G43-9MM-6-1-NO-CREDIT-CARD-FE.htm", 
+    "task_id": "9d4cf42792e2bcb4d3cd97c53ef171cc", 
+    "updated_at": "2018-05-19T04:58:38"
+  }, 
+  {
+    "created_at": "2018-05-19T13:00:00", 
+    "id": 2, 
+    "image_path": "/home/lilandra/PROJECTS/techmine/scaling_mvp/results/a2458bccc1ca27bde2741f6f354ef80b_1_result.png", 
+    "image_url": "https://news.nationalgeographic.com/content/dam/news/2017/04/27/frog-gallery/01-frog-day-gallery.jpg", 
+    "processing_status": 2, 
+    "screen_height": 1080, 
+    "screen_width": 1920, 
+    "status": 0, 
+    "target_url": "https://www.gunsamerica.com/934027991/GLOCK-G43-9MM-6-1-NO-CREDIT-CARD-FE.htm", 
+    "task_id": "a2458bccc1ca27bde2741f6f354ef80b", 
+    "updated_at": "2018-05-19T05:00:40"
+  }, 
+  {
+    "created_at": "2018-05-19T13:00:00", 
+    "id": 3, 
+    "image_path": "/home/lilandra/PROJECTS/techmine/scaling_mvp/results/a2458bccc1ca27bde2741f6f354ef80b_2_result.png", 
+    "image_url": "https://upload.wikimedia.org/wikipedia/en/5/59/Hulk_%28comics_character%29.png", 
+    "processing_status": 2, 
+    "screen_height": 1080, 
+    "screen_width": 1920, 
+    "status": 0, 
+    "target_url": "https://www.gunsamerica.com/934027991/GLOCK-G43-9MM-6-1-NO-CREDIT-CARD-FE.htm", 
+    "task_id": "a2458bccc1ca27bde2741f6f354ef80b", 
+    "updated_at": "2018-05-19T05:01:08"
+  }, 
+  {
+    "created_at": "2018-05-19T13:00:00", 
+    "id": 4, 
+    "image_path": "/home/lilandra/PROJECTS/techmine/scaling_mvp/results/a2458bccc1ca27bde2741f6f354ef80b_3_result.png", 
+    "image_url": "https://www.gunsamerica.com/userimages/135830/934027991/wm_12387848.jpg", 
+    "processing_status": 2, 
+    "screen_height": 1080, 
+    "screen_width": 1920, 
+    "status": 1, 
+    "target_url": "https://www.gunsamerica.com/934027991/GLOCK-G43-9MM-6-1-NO-CREDIT-CARD-FE.htm", 
+    "task_id": "a2458bccc1ca27bde2741f6f354ef80b", 
+    "updated_at": "2018-05-19T05:01:51"
+  }, 
+  {
+    "created_at": "2018-05-19T13:00:00", 
+    "id": 5, 
+    "image_path": "", 
+    "image_url": "https://vignette.wikia.nocookie.net/swfanon/images/7/78/Padme.jpg/revision/latest?cb=20110710054422", 
+    "processing_status": 2, 
+    "screen_height": 1080, 
+    "screen_width": 1920, 
+    "status": 0, 
+    "target_url": "https://www.gunsamerica.com/934027991/GLOCK-G43-9MM-6-1-NO-CREDIT-CARD-FE.htm", 
+    "task_id": "a2458bccc1ca27bde2741f6f354ef80b", 
+    "updated_at": "2018-05-19T05:01:51"
+  }
+]
+
+===========================================
+FETCH RESULT BY DATE RANGE
+200
+[
+  {
+    "created_at": "2018-05-19T12:58:00", 
+    "id": 1, 
+    "image_path": "/home/lilandra/PROJECTS/techmine/scaling_mvp/results/9d4cf42792e2bcb4d3cd97c53ef171cc_result.png", 
+    "image_url": "https://www.gunsamerica.com/userimages/135830/934027991/wm_12387848.jpg", 
+    "processing_status": 2, 
+    "screen_height": 1080, 
+    "screen_width": 1920, 
+    "status": 1, 
+    "target_url": "https://www.gunsamerica.com/934027991/GLOCK-G43-9MM-6-1-NO-CREDIT-CARD-FE.htm", 
+    "task_id": "9d4cf42792e2bcb4d3cd97c53ef171cc", 
+    "updated_at": "2018-05-19T04:58:38"
+  }, 
+  {
+    "created_at": "2018-05-19T13:00:00", 
+    "id": 2, 
+    "image_path": "/home/lilandra/PROJECTS/techmine/scaling_mvp/results/a2458bccc1ca27bde2741f6f354ef80b_1_result.png", 
+    "image_url": "https://news.nationalgeographic.com/content/dam/news/2017/04/27/frog-gallery/01-frog-day-gallery.jpg", 
+    "processing_status": 2, 
+    "screen_height": 1080, 
+    "screen_width": 1920, 
+    "status": 0, 
+    "target_url": "https://www.gunsamerica.com/934027991/GLOCK-G43-9MM-6-1-NO-CREDIT-CARD-FE.htm", 
+    "task_id": "a2458bccc1ca27bde2741f6f354ef80b", 
+    "updated_at": "2018-05-19T05:00:40"
+  }, 
+  {
+    "created_at": "2018-05-19T13:00:00", 
+    "id": 3, 
+    "image_path": "/home/lilandra/PROJECTS/techmine/scaling_mvp/results/a2458bccc1ca27bde2741f6f354ef80b_2_result.png", 
+    "image_url": "https://upload.wikimedia.org/wikipedia/en/5/59/Hulk_%28comics_character%29.png", 
+    "processing_status": 2, 
+    "screen_height": 1080, 
+    "screen_width": 1920, 
+    "status": 0, 
+    "target_url": "https://www.gunsamerica.com/934027991/GLOCK-G43-9MM-6-1-NO-CREDIT-CARD-FE.htm", 
+    "task_id": "a2458bccc1ca27bde2741f6f354ef80b", 
+    "updated_at": "2018-05-19T05:01:08"
+  }, 
+  {
+    "created_at": "2018-05-19T13:00:00", 
+    "id": 4, 
+    "image_path": "/home/lilandra/PROJECTS/techmine/scaling_mvp/results/a2458bccc1ca27bde2741f6f354ef80b_3_result.png", 
+    "image_url": "https://www.gunsamerica.com/userimages/135830/934027991/wm_12387848.jpg", 
+    "processing_status": 2, 
+    "screen_height": 1080, 
+    "screen_width": 1920, 
+    "status": 1, 
+    "target_url": "https://www.gunsamerica.com/934027991/GLOCK-G43-9MM-6-1-NO-CREDIT-CARD-FE.htm", 
+    "task_id": "a2458bccc1ca27bde2741f6f354ef80b", 
+    "updated_at": "2018-05-19T05:01:51"
+  }, 
+  {
+    "created_at": "2018-05-19T13:00:00", 
+    "id": 5, 
+    "image_path": "", 
+    "image_url": "https://vignette.wikia.nocookie.net/swfanon/images/7/78/Padme.jpg/revision/latest?cb=20110710054422", 
+    "processing_status": 2, 
+    "screen_height": 1080, 
+    "screen_width": 1920, 
+    "status": 0, 
+    "target_url": "https://www.gunsamerica.com/934027991/GLOCK-G43-9MM-6-1-NO-CREDIT-CARD-FE.htm", 
+    "task_id": "a2458bccc1ca27bde2741f6f354ef80b", 
+    "updated_at": "2018-05-19T05:01:51"
+  }
+]
+
+===========================================
+FETCH RESULT BY MONTH
+200
+[
+  {
+    "created_at": "Sat, 19 May 2018 12:58:00 GMT", 
+    "id": 1, 
+    "image_path": "/home/lilandra/PROJECTS/techmine/scaling_mvp/results/9d4cf42792e2bcb4d3cd97c53ef171cc_result.png", 
+    "image_url": "https://www.gunsamerica.com/userimages/135830/934027991/wm_12387848.jpg", 
+    "processing_status": 2, 
+    "screen_height": 1080, 
+    "screen_width": 1920, 
+    "status": 1, 
+    "target_url": "https://www.gunsamerica.com/934027991/GLOCK-G43-9MM-6-1-NO-CREDIT-CARD-FE.htm", 
+    "task_id": "9d4cf42792e2bcb4d3cd97c53ef171cc", 
+    "updated_at": "Sat, 19 May 2018 04:58:38 GMT"
+  }, 
+  {
+    "created_at": "Sat, 19 May 2018 13:00:00 GMT", 
+    "id": 2, 
+    "image_path": "/home/lilandra/PROJECTS/techmine/scaling_mvp/results/a2458bccc1ca27bde2741f6f354ef80b_1_result.png", 
+    "image_url": "https://news.nationalgeographic.com/content/dam/news/2017/04/27/frog-gallery/01-frog-day-gallery.jpg", 
+    "processing_status": 2, 
+    "screen_height": 1080, 
+    "screen_width": 1920, 
+    "status": 0, 
+    "target_url": "https://www.gunsamerica.com/934027991/GLOCK-G43-9MM-6-1-NO-CREDIT-CARD-FE.htm", 
+    "task_id": "a2458bccc1ca27bde2741f6f354ef80b", 
+    "updated_at": "Sat, 19 May 2018 05:00:40 GMT"
+  }, 
+  {
+    "created_at": "Sat, 19 May 2018 13:00:00 GMT", 
+    "id": 3, 
+    "image_path": "/home/lilandra/PROJECTS/techmine/scaling_mvp/results/a2458bccc1ca27bde2741f6f354ef80b_2_result.png", 
+    "image_url": "https://upload.wikimedia.org/wikipedia/en/5/59/Hulk_%28comics_character%29.png", 
+    "processing_status": 2, 
+    "screen_height": 1080, 
+    "screen_width": 1920, 
+    "status": 0, 
+    "target_url": "https://www.gunsamerica.com/934027991/GLOCK-G43-9MM-6-1-NO-CREDIT-CARD-FE.htm", 
+    "task_id": "a2458bccc1ca27bde2741f6f354ef80b", 
+    "updated_at": "Sat, 19 May 2018 05:01:08 GMT"
+  }, 
+  {
+    "created_at": "Sat, 19 May 2018 13:00:00 GMT", 
+    "id": 4, 
+    "image_path": "/home/lilandra/PROJECTS/techmine/scaling_mvp/results/a2458bccc1ca27bde2741f6f354ef80b_3_result.png", 
+    "image_url": "https://www.gunsamerica.com/userimages/135830/934027991/wm_12387848.jpg", 
+    "processing_status": 2, 
+    "screen_height": 1080, 
+    "screen_width": 1920, 
+    "status": 1, 
+    "target_url": "https://www.gunsamerica.com/934027991/GLOCK-G43-9MM-6-1-NO-CREDIT-CARD-FE.htm", 
+    "task_id": "a2458bccc1ca27bde2741f6f354ef80b", 
+    "updated_at": "Sat, 19 May 2018 05:01:51 GMT"
+  }, 
+  {
+    "created_at": "Sat, 19 May 2018 13:00:00 GMT", 
+    "id": 5, 
+    "image_path": "", 
+    "image_url": "https://vignette.wikia.nocookie.net/swfanon/images/7/78/Padme.jpg/revision/latest?cb=20110710054422", 
+    "processing_status": 2, 
+    "screen_height": 1080, 
+    "screen_width": 1920, 
+    "status": 0, 
+    "target_url": "https://www.gunsamerica.com/934027991/GLOCK-G43-9MM-6-1-NO-CREDIT-CARD-FE.htm", 
+    "task_id": "a2458bccc1ca27bde2741f6f354ef80b", 
+    "updated_at": "Sat, 19 May 2018 05:01:51 GMT"
+  }
+]
+
+>Exit code: 0

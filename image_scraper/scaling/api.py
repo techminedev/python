@@ -20,12 +20,20 @@ from datetime import datetime
 import arrow
 
 db = DatabaseManager(DATABASES)
-Model.set_connection_resolver(db)
 
 app = Flask(__name__)
 
 app.config['STATIC_PATH'] = MATCHES_IMAGE_DIRECTORY
 
+
+@app.before_request
+def _db_connect():
+	db.reconnect()
+
+@app.teardown_request
+def _db_close(exc):
+	print "request closing"
+	db.disconnect()
 
 
 @app.route('/')
@@ -73,21 +81,31 @@ def search_match():
 						print 'target_url %s' % data['target_url']
 						print 'image_url %s' % image['image_url']
 
-						t_data = []
-						t_data.append(id)
-						t_data.append(data['target_url'])
-						t_data.append(image['image_url'])
-						t_data.append(image['screen_width'])
-						t_data.append(image['screen_height'])
-						t_data.append(datetime.now().strftime("%y-%m-%d-%H-%M"))
-						db.insert('insert into tasks (task_id, target_url, image_url, screen_width, screen_height,created_at) values (%s,%s,%s,%s,%s,%s)', t_data)
+						#t_data = []
+						#t_data.append(id)
+						#t_data.append(data['target_url'])
+						#t_data.append(image['image_url'])
+						#t_data.append(image['screen_width'])
+						#t_data.append(image['screen_height'])
+						#t_data.append(datetime.now().strftime("%y-%m-%d-%H-%M"))
+						
+						#db.insert('insert into tasks (task_id, target_url, image_url, screen_width, screen_height,created_at) values (%s,%s,%s,%s,%s,%s)', t_data)
+						
+						
+						t_data = {}
+						t_data["task_id"] = id
+						t_data["target_url"] = data['target_url']
+						t_data["image_url"] = image['image_url']
+						t_data["screen_width"] = image['screen_width']
+						t_data["screen_height"] = image['screen_height']
+						t_data["created_at"] = str(arrow.utcnow().format('YYYY-MM-DD HH:mm:ss'))				
+						
+						db.table("tasks").insert(t_data)
 
-				response = \
-				app.response_class(response=ujson.dumps({'status': 'OK','task_id':id}),
-						   status=200, mimetype='application/json',
-						   headers={'Access-Control-Allow-Origin': '*'
-						   })
+				response = app.response_class(response=ujson.dumps({'status': 'OK','task_id':id}),status=200, mimetype='application/json',headers={'Access-Control-Allow-Origin': '*'})
+						   
 				return response
+				
 			else:
 				abort(403)
 		else:
@@ -116,6 +134,7 @@ def get_search_task_id():
 		return response
 
 	except:
+		print e
 		abort(403)
 
 @app.route("/api/search/daterange", methods=["GET"])
@@ -150,13 +169,14 @@ def get_search_date():
 		print date
 
 		if date:
-			transaction = Task.where("created_at",">",str(arrow.get(date, 'YYYY-MM-DD').format('YYYY-MM-DD'))).where("created_at","<",str(arrow.get(date, 'YYYY-MM-DD').shift(days=1).format('YYYY-MM-DD'))).get().serialize()
+			transaction = db.table("tasks").where("created_at",">",str(arrow.get(date, 'YYYY-MM-DD').format('YYYY-MM-DD'))).where("created_at","<",str(arrow.get(date, 'YYYY-MM-DD').shift(days=1).format('YYYY-MM-DD'))).get().serialize()
 
 		response = app.response_class(response=ujson.dumps(transaction),status=200, mimetype='application/json',headers={'Access-Control-Allow-Origin': '*'})
 
 		return response
 
 	except:
+		print e
 		abort(403)
 
 @app.route("/api/search/month", methods=["GET"])

@@ -11,8 +11,6 @@ from orator import Model
 from models.task import *
 
 db = DatabaseManager(DATABASES)
-Model.set_connection_resolver(db)
-
 
 class SimpleWorker(Process):
 
@@ -50,7 +48,6 @@ class SimpleWorker(Process):
 					})
 
 			except:
-				#t.processing_status = 3 # ERROR
 				self.db.table("tasks").where("task_id","=",t.task_id).update({
 					"processing_status": 3
 					})
@@ -96,10 +93,6 @@ class BatchWorker(Process):
 					print status
 					print image_match
 
-					#t.image_path = image_match
-					#t.status = status
-					#t.processing_status = 2 # DONE
-					#t.save()
 					self.db.table("tasks").where("task_id","=",t.task_id).update({
 						"image_path" : image_match,
 						"status": status,
@@ -112,17 +105,12 @@ class BatchWorker(Process):
 				else:
 					# at least one of the previous task has succeeded
 					# the rest of the task will be set to DONE
-					#t.processing_status = 2 # DONE
-					#t.image_path = ""
-					#t.save()
 					self.db.table("tasks").where("task_id","=",t.task_id).update({
 						"image_path" : "",
 						"processing_status": 2
 						})					
 
 			except:
-				#processing_status = 3 # ERROR
-				#image_path = ""
 				self.db.table("tasks").where("task_id","=",t.task_id).update({
 					"image_path" : "",
 					"processing_status": 3
@@ -141,7 +129,6 @@ if __name__ == '__main__':
 	while True:
 
 		if worker_control.acquire(False):
-			print "Acquired"
 
 			db.reconnect()
 
@@ -153,7 +140,6 @@ if __name__ == '__main__':
 
 				db.table("tasks").where("task_id","like",task_id).update({'processing_status': 1})
 
-				#num_tasks = Task.where("task_id","=",task_id).count()
 				num_tasks = db.table("tasks").where("task_id","like",task_id).count()
 				print num_tasks
 

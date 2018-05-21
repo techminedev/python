@@ -111,7 +111,10 @@ def get_search_task_id():
 		
 			transaction = db.table("tasks").where_in("task_id", task_ids).get().serialize()
 
-		return jsonify(transaction)
+		response = app.response_class(response=ujson.dumps(transaction),status=200, mimetype='application/json',headers={'Access-Control-Allow-Origin': '*'})
+
+		return response
+
 	except:
 		abort(403)
 
@@ -127,11 +130,14 @@ def get_search_daterange():
 		print date_end
 
 		if None not in [date_start,date_end]:
-			transaction = Task.where_between("created_at",[date_start,date_end]).get().serialize()
+			transaction = db.select("select * from tasks where created_at BETWEEN %s AND %s",[date_start, date_end])
 
-		return jsonify(transaction)
+		response = app.response_class(response=ujson.dumps(transaction),status=200, mimetype='application/json',headers={'Access-Control-Allow-Origin': '*'})
 
-	except:
+		return response
+
+	except Exception, e:
+		print e
 		abort(403)
 
 @app.route("/api/search/date", methods=["GET"])
@@ -146,7 +152,9 @@ def get_search_date():
 		if date:
 			transaction = Task.where("created_at",">",str(arrow.get(date, 'YYYY-MM-DD').format('YYYY-MM-DD'))).where("created_at","<",str(arrow.get(date, 'YYYY-MM-DD').shift(days=1).format('YYYY-MM-DD'))).get().serialize()
 
-		return jsonify(transaction)
+		response = app.response_class(response=ujson.dumps(transaction),status=200, mimetype='application/json',headers={'Access-Control-Allow-Origin': '*'})
+
+		return response
 
 	except:
 		abort(403)
@@ -161,13 +169,17 @@ def get_search_month():
 		print month
 
 		if month:
-			transaction = db.select("select * from tasks where MONTH(created_at) = MONTH(str_to_date(%s,'%%b')) and YEAR(now()) = YEAR( CURDATE())",[month]) 
+			transaction = db.select("select * from tasks where MONTH(created_at) = MONTH(str_to_date(%s,'%%b')) and YEAR(now()) = YEAR( CURDATE())",[month])
 
-		return jsonify(transaction)
+		response = app.response_class(response=ujson.dumps(transaction),status=200, mimetype='application/json',headers={'Access-Control-Allow-Origin': '*'})
 
-	except:
+		return response
+
+	except Exception, e:
+		print e
 		abort(403)
 
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+

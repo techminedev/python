@@ -20,12 +20,13 @@ class SimpleWorker(Process):
 		super(SimpleWorker, self).__init__()
 		self.task_id = task_id
 		self.worker_control = worker_control
+		self.db = DatabaseManager(DATABASES)
 
 	def run(self):
 
 		print "-- SIMPLE WORKER ONLINE : %s" % self.task_id
 
-		t = Task.where("task_id","=",self.task_id).first()
+		t = self.db.table("tasks").where("task_id","=",self.task_id).first()
 
 		if t is not None:
 
@@ -42,14 +43,17 @@ class SimpleWorker(Process):
 				print status
 				print image_match
 
-				t.image_path = image_match
-				t.status = status
-				t.processing_status = 2 # DONE
-				t.save()
+				self.db.table("tasks").where("task_id","=",t.task_id).update({
+					"image_path" : image_match,
+					"status": status,
+					"processing_status": 2
+					})
 
 			except:
-				t.processing_status = 3 # ERROR
-				t.save()
+				#t.processing_status = 3 # ERROR
+				self.db.table("tasks").where("task_id","=",t.task_id).update({
+					"processing_status": 3
+					})
 
 		self.worker_control.release()
 
@@ -60,6 +64,7 @@ class BatchWorker(Process):
 		super(BatchWorker, self).__init__()
 		self.task_id = task_id
 		self.worker_control = worker_control
+		self.db = DatabaseManager(DATABASES)
 
 	def run(self):
 
@@ -67,7 +72,7 @@ class BatchWorker(Process):
 
 		image_detector = ImageDetector()
 
-		tasks = Task.where("task_id","=",self.task_id).order_by("id","asc").get()
+		tasks = self.db.table("tasks").where("task_id","=",self.task_id).order_by("id","asc").get()
 
 		counter = 0
 		is_ok_to_continue = True
@@ -91,10 +96,15 @@ class BatchWorker(Process):
 					print status
 					print image_match
 
-					t.image_path = image_match
-					t.status = status
-					t.processing_status = 2 # DONE
-					t.save()
+					#t.image_path = image_match
+					#t.status = status
+					#t.processing_status = 2 # DONE
+					#t.save()
+					self.db.table("tasks").where("task_id","=",t.task_id).update({
+						"image_path" : image_match,
+						"status": status,
+						"processing_status": 2
+						})
 
 					if status:
 						is_ok_to_continue = False
@@ -102,14 +112,21 @@ class BatchWorker(Process):
 				else:
 					# at least one of the previous task has succeeded
 					# the rest of the task will be set to DONE
-					t.processing_status = 2 # DONE
-					t.image_path = ""
-					t.save()
+					#t.processing_status = 2 # DONE
+					#t.image_path = ""
+					#t.save()
+					self.db.table("tasks").where("task_id","=",t.task_id).update({
+						"image_path" : "",
+						"processing_status": 2
+						})					
 
 			except:
-				t.processing_status = 3 # ERROR
-				t.image_path = ""
-				t.save()
+				#processing_status = 3 # ERROR
+				#image_path = ""
+				self.db.table("tasks").where("task_id","=",t.task_id).update({
+					"image_path" : "",
+					"processing_status": 3
+					})
 
 		self.worker_control.release()
 
@@ -124,16 +141,21 @@ if __name__ == '__main__':
 	while True:
 
 		if worker_control.acquire(False):
+			print "Acquired"
 
-			t = Task.where("processing_status","=",0).first()
+			db.reconnect()
+
+			t = db.table("tasks").where("processing_status","=",0).first()
 
 			if t is not None:
 
 				task_id = t.task_id
 
-				Task.where("task_id","=",task_id).update({'processing_status': 1})
+				db.table("tasks").where("task_id","like",task_id).update({'processing_status': 1})
 
-				num_tasks = Task.where("task_id","=",task_id).count()
+				#num_tasks = Task.where("task_id","=",task_id).count()
+				num_tasks = db.table("tasks").where("task_id","like",task_id).count()
+				print num_tasks
 
 				if num_tasks > 1:
 					w = BatchWorker(task_id,worker_control)
@@ -144,4 +166,5 @@ if __name__ == '__main__':
 			else:
 				worker_control.release()
 
-			time.sleep(0.1) #sleep for 100 milliseconds
+		time.sleep(0.5) #sleep for 100 milliseconds
+
